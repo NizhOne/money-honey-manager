@@ -1,0 +1,11 @@
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\bin\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.deps.json
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\bin\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.runtimeconfig.json
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\bin\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.runtimeconfig.dev.json
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\bin\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.dll
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\bin\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.pdb
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\obj\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.csprojAssemblyReference.cache
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\obj\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.csproj.CoreCompileInputs.cache
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\obj\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.AssemblyInfoInputs.cache
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\obj\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.AssemblyInfo.cs
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\obj\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.dll
+C:\Users\Computer\Downloads\ASP.NET-Core-MVC-ReactJS.NET-master\ASPNETCoreReactNET-Example\ASPNETCoreReactNET-Example\obj\Debug\netcoreapp2.0\ASPNETCoreReactNET-Example.pdb
