@@ -1,0 +1,3 @@
+**/vendor/**/*.js
+**/_core/**/*.js
+dist/**/*.js
