@@ -1,5 +1,4 @@
-React style guide - https://github.com/airbnb/javascript/tree/master/react
-JS style guide - https://github.com/airbnb/javascript
+[React style guide](https://github.com/airbnb/javascript/tree/master/react)
 
 Install packages:
 ### `yarn`
