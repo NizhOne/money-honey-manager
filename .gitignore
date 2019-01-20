@@ -7,7 +7,7 @@ UI/node_modules
 /coverage
 
 # production
-/build
+/CLIENT/build
 
 # misc
 .DS_Store
@@ -361,5 +361,5 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-# BeatPulse healthcheck temp database 
+# BeatPulse healthcheck temp database
 healthchecksdb
