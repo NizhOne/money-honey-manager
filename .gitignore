@@ -7,11 +7,10 @@ UI/node_modules
 /coverage
 
 # production
-/build
+/CLIENT/build
 
 # misc
 .DS_Store
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
@@ -361,5 +360,6 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-# BeatPulse healthcheck temp database 
+# BeatPulse healthcheck temp database
 healthchecksdb
+config.bat
