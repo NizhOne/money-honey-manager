@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using API.Interfaces;
 using API.Models;
 using API.Options;
@@ -92,6 +91,29 @@ namespace API.Controllers
                 return Ok(this.authService.GenerateJwtToken(user));
             else
                 return BadRequest("Invalid userId or code");
+        }
+
+        [HttpPost()]
+        public async Task<IActionResult> FacebookAuthentication([FromBody]FacebookAuthViewModel model)
+        {
+            var userInfo = await this.authService.GetFacebookUserInfoAsync(model.AccessToken);
+            var user = await userManager.FindByEmailAsync(userInfo.Email);
+
+            if (user == null)
+            {
+                var appUser = new ApplicationUser
+                {
+                    Name = userInfo.FirstName,
+                    Email = userInfo.Email,
+                    UserName = userInfo.Email,
+                };
+
+                var result = await userManager.CreateAsync(appUser, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8));
+            }
+
+            var localUser = await userManager.FindByNameAsync(userInfo.Email);
+
+            return new OkObjectResult(this.authService.GenerateJwtToken(localUser));
         }
     }
 }

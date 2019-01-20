@@ -62,7 +62,7 @@ namespace API
                    ValidateIssuerSigningKey = true,
 
                    ValidIssuer = "",
-                   ValidAudience = Configuration["Authentication:FrontendHost"],
+                   ValidAudience = Configuration["Authentication:BackendHost"],
                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Authentication:IssuerSigningKey"]))
                };
            });
@@ -70,6 +70,13 @@ namespace API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Money-Honey Manager API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
             });
         }
 
