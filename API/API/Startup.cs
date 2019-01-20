@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using API.Interfaces;
 using API.Models;
@@ -34,13 +37,11 @@ namespace API
             services.AddDbContext<MoneyHoneyDbContext>(options =>
                   options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            this.ConfigureOptions(services);
-
+            services.AddOptions();
+            services.Configure<Authentication>(Configuration.GetSection("Authentication"));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                .AddEntityFrameworkStores<MoneyHoneyDbContext>()
                .AddDefaultTokenProviders();
-
-            this.ConfigureAppServices(services);
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -51,6 +52,7 @@ namespace API
                     return Task.CompletedTask;
                 };
             });
+            services.AddScoped<IAuthService, AuthService>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
            .AddJwtBearer(options =>
            {
@@ -97,19 +99,6 @@ namespace API
 
             app.UseMvc();
             dbContext.Database.EnsureCreated();
-        }
-
-        private void ConfigureOptions(IServiceCollection services)
-        {
-            services.AddOptions();
-            services.Configure<AuthenticationOptions>(Configuration.GetSection("Authentication"));
-            services.Configure<EmailConfirmationOptions>(Configuration.GetSection("EmailConfirmation"));
-        }
-
-        private void ConfigureAppServices(IServiceCollection services)
-        {
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IEmailService, EmailService>();
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace API.Options
 {
-    public class AuthenticationOptions
+    public class Authentication
     {
         public string BackendHost { get; set; }
         public string FrontendHost { get; set; }

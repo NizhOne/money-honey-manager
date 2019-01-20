@@ -4,6 +4,6 @@ namespace API.Interfaces
 {
     public interface IAuthService
     {
-        string GenerateJwtToken(ApplicationUser user);
+        string GenerateJwtToken(string email, ApplicationUser user);
     }
 }

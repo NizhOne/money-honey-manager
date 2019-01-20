@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using API.Interfaces;
 using API.Models;
 using API.Options;
@@ -11,87 +12,58 @@ using Microsoft.Extensions.Options;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : Controller
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IAuthService authService;
-        private readonly IEmailService emailService;
-        private readonly AuthenticationOptions authConfig;
+        private readonly Authentication authConfig;
 
         public AuthController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IOptions<AuthenticationOptions> authOptions,
-            IAuthService authService,
-            IEmailService emailService)
+            IOptions<Authentication> authOptions,
+            IAuthService authService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.authService = authService;
-            this.emailService = emailService;
             this.authConfig = authOptions.Value;
         }
 
-        [HttpPost]
-        public async Task<object> Register([FromBody] RegisterModel model)
+        [HttpPost("[action]")]
+        public async Task<object> Register(string name, string email, string password)
         {
             var user = new ApplicationUser
             {
-                Name = model.Name,
-                UserName = model.Email,
-                Email = model.Email
+                Name = name,
+                UserName = email,
+                Email = email
             };
-            var result = await this.userManager.CreateAsync(user, model.Password);
+            var result = await this.userManager.CreateAsync(user, password);
 
             if (result.Succeeded)
             {
                 await signInManager.SignInAsync(user, false);
-
-                var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                await this.emailService.SendConfirmationMail(user, code);
-
-                return this.authService.GenerateJwtToken(user);
+                return this.authService.GenerateJwtToken(email, user);
             }
 
             throw new ApplicationException("UNKNOWN_ERROR");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        [HttpPost("[action]")]
+        public async Task<string> Login(string email, string password)
         {
-            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            var result = await signInManager.PasswordSignInAsync(email, password, false, false);
 
             if (result.Succeeded)
             {
-                var appUser = userManager.Users.SingleOrDefault(r => r.Email == model.Email);
-                return Ok(this.authService.GenerateJwtToken(appUser));
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(string userId, string code)
-        {
-            if (userId == null || code == null)
-            {
-                return BadRequest("Empty userId or code");
-            }
-            var user = await userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return BadRequest("Invalid userId ");
+                var appUser = userManager.Users.SingleOrDefault(r => r.Email == email);
+                return this.authService.GenerateJwtToken(email, appUser);
             }
 
-            var result = await userManager.ConfirmEmailAsync(user, code.Replace(" ", "+"));
-            if (result.Succeeded)
-                return Ok(this.authService.GenerateJwtToken(user));
-            else
-                return BadRequest("Invalid userId or code");
+            throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
         }
     }
 }

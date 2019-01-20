@@ -6,25 +6,28 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace API.Services
 {
+
     public class AuthService : IAuthService
     {
-        private readonly AuthenticationOptions authConfig;
+        private readonly Authentication authConfig;
 
-        public AuthService(IOptions<AuthenticationOptions> authOptions)
+        public AuthService(IOptions<Authentication> authOptions)
         {
             this.authConfig = authOptions.Value;
         }
 
-        public string GenerateJwtToken(ApplicationUser user)
+        public string GenerateJwtToken(string email, ApplicationUser user)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
