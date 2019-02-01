@@ -5,6 +5,7 @@ import Container from "../Container";
 import "./form.css"
 
 class Form extends React.Component{
+    // TODO add validation rules
     handleInputChange = (event) => {
         const {target: {name, value, type, checked}} = event;
         const pureValue = type === 'checkbox' ? checked : value;
@@ -28,8 +29,6 @@ class Form extends React.Component{
                                     value={(this.state && this.state[item.name]) || ""}
                                     onChange={this.handleInputChange}
                                     key={item.name}
-                                    validate={false}
-                                    error={"error"}
                                 />)
                         }
                     </Col>
