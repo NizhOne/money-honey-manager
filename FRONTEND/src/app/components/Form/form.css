@@ -1,0 +1,15 @@
+.form {
+    max-width: 600px;
+}
+
+.form__wrapper {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.form__buttons button {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
