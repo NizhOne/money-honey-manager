@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Threading.Tasks;
 using API.Interfaces;
-using API.Models;
+using API.Models.Domain;
 using API.Options;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -36,11 +36,22 @@ namespace API
 
             this.ConfigureOptions(services);
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options => {
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireDigit = false;
+                })
                .AddEntityFrameworkStores<MoneyHoneyDbContext>()
                .AddDefaultTokenProviders();
 
             this.ConfigureAppServices(services);
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -93,7 +104,11 @@ namespace API
             }
 
             app.UseHttpsRedirection();
-            app.UseCors(builder => builder.WithOrigins(Configuration["Authentication:FrontendHost"]));
+            app.UseCors(builder => builder
+            .WithOrigins(Configuration["Authentication:FrontendHost"])
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
             app.UseAuthentication();
 
             app.UseSwagger();
