@@ -1,6 +1,6 @@
 ﻿using API.Constants;
 using API.Interfaces;
-using API.Models;
+using API.Models.Domain;
 using API.Options;
 using Microsoft.Extensions.Options;
 using System;
