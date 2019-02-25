@@ -1,4 +1,5 @@
 ﻿using API.Models;
+using API.Models.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,5 +12,8 @@ namespace API
         {
             Database.EnsureCreated();
         }
+
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Operation> Operations { get; set; }
     }
 }
