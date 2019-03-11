@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(MoneyHoneyDbContext))]
-    [Migration("20190220214721_add categories and operations")]
-    partial class addcategoriesandoperations
+    [Migration("20190227220128_Db seed")]
+    partial class Dbseed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,6 +92,16 @@ namespace API.Migrations
                     b.HasIndex("CreatorId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new { Id = new Guid("00000000-0000-0000-0000-000000000001"), IsStandart = true, Name = "Food", Type = (byte)0 },
+                        new { Id = new Guid("00000000-0000-0000-0000-000000000002"), IsStandart = true, Name = "Transport", Type = (byte)0 },
+                        new { Id = new Guid("00000000-0000-0000-0000-000000000003"), IsStandart = true, Name = "Life", Type = (byte)0 },
+                        new { Id = new Guid("00000000-0000-0000-0000-000000000004"), IsStandart = true, Name = "Entertainment", Type = (byte)0 },
+                        new { Id = new Guid("00000000-0000-0000-0000-000000000005"), IsStandart = true, Name = "Medicine", Type = (byte)0 },
+                        new { Id = new Guid("00000000-0000-0000-0000-000000000006"), IsStandart = true, Name = "Salary", Type = (byte)1 },
+                        new { Id = new Guid("00000000-0000-0000-0000-000000000007"), IsStandart = true, Name = "Prostitution", Type = (byte)1 }
+                    );
                 });
 
             modelBuilder.Entity("API.Models.Domain.Operation", b =>
@@ -231,7 +241,7 @@ namespace API.Migrations
             modelBuilder.Entity("API.Models.Domain.Category", b =>
                 {
                     b.HasOne("API.Models.Domain.ApplicationUser", "Creator")
-                        .WithMany("Categories")
+                        .WithMany()
                         .HasForeignKey("CreatorId");
                 });
 
@@ -243,7 +253,7 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("API.Models.Domain.ApplicationUser", "Creator")
-                        .WithMany("Operations")
+                        .WithMany()
                         .HasForeignKey("CreatorId");
                 });
 

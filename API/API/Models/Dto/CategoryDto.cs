@@ -1,11 +1,10 @@
 ﻿using API.Constants;
+using API.Models.Domain;
 
-namespace API.Models.Domain
+namespace API.Models.Dto
 {
-    public class Category: BaseEntity
+    public class CategoryDto: BaseEntity
     {
-        public virtual ApplicationUser Creator { get; set; }
-
         public string CreatorId { get; set; }
 
         public string Name { get; set; }

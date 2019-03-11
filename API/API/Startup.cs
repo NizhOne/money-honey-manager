@@ -130,8 +130,10 @@ namespace API
 
         private void ConfigureAppServices(IServiceCollection services)
         {
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IAuthService, AuthService>()
+            .AddScoped<IEmailService, EmailService>()
+            .AddScoped<ICategoryService, CategoryService>()
+            .AddScoped<IOperationService, OperationService>();
         }
     }
 }
