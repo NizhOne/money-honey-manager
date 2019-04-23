@@ -73,12 +73,12 @@ export default (req, res) => {
                       2. Inside of the Frontload HOC
                       3. Inside of a Redux <StaticRouter /> (since we're on the server), given a location and context to write to
                       4. Inside of the store provider
-                      5. Inside of the React Loadable HOC to make sure we have the right scripts depending on page
+                      5. Inside of the React Loadable HOC to make sure we have the right scripts depending on Page
                       6. Render all of this sexiness
                       7. Make sure that when rendering Frontload knows to get all the appropriate preloaded requests
 
-                    In English, we basically need to know what page we're dealing with, and then load all the appropriate scripts and
-                    data for that page. We take all that information and compute the appropriate state to send to the user. This is
+                    In English, we basically need to know what Page we're dealing with, and then load all the appropriate scripts and
+                    data for that Page. We take all that information and compute the appropriate state to send to the user. This is
                     then loaded into the correct components and sent as a Promise to be handled below.
                   */
             frontloadServerRender(() =>
@@ -104,7 +104,7 @@ export default (req, res) => {
                 } else {
                     // Otherwise, we carry on...
 
-                    // Let's give ourself a function to load all our page-specific JS assets for code splitting
+                    // Let's give ourself a function to load all our Page-specific JS assets for code splitting
                     const extractAssets = (assets, chunks) =>
                         Object.keys(assets)
                             .filter(

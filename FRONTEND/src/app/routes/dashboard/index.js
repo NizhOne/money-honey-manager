@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Page from "../../components/page";
+import Page from "../../components/Page";
 
 const Dashboard = ({ currentUser }) => (
     <Page id="dashboard" title="Dashboard" noCrawl>

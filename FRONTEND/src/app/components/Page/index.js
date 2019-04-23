@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router";
 import Helmet from "react-helmet";
+
 import logo from "../../assets/logo.jpg";
+import { FACEBOOK_APP_ID }  from "../../../utils/constants";
 
 const SITE_URL =
     process.env.NODE_ENV === "development"
         ? "http://localhost:3000"
         : "https://cra-ssr.herokuapp.com";
-
-const FACEBOOK_APP_ID = "XXXXXXXXX";
 
 const defaultTitle = "My Website";
 const defaultDescription =
