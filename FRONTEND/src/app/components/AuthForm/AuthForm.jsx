@@ -3,7 +3,6 @@ import * as React from "react";
 import Form from "../Form/index";
 import { Button } from "react-materialize";
 import "./auth-form.css";
-import ApiRequests from "../../../api/api-requests";
 
 class AuthForm extends React.Component {
     state = {
@@ -17,13 +16,11 @@ class AuthForm extends React.Component {
     };
 
     getValues = (values) => {
-        const api = new ApiRequests();
         const {email, name, password} = values;
-        if (this.state.isRegistration) {
-
-        }
-        const tmp = this.state.isRegistration ? api.registration(name,  email, password) : api.authorization(email, password);
-        tmp.then(response => console.log(response))
+        console.log(this.props);
+        this.state.isRegistration
+            ? this.props.registration(name, email, password)
+            : this.props.authorization(email, password);
     } ;
 
     render() {

@@ -1,8 +1,7 @@
 import { callServer } from "../utils/request-util";
+import { apiUrl } from "../utils/constants";
 
-const apiUrl = "http://suslovvladimir-001-site1.htempurl.com/api/";
-
-export default class ApiRequests {
+export default class AuthRequests {
     static getHeaders() {
         return {
             "content-type": "application/json"
@@ -10,11 +9,11 @@ export default class ApiRequests {
     }
 
     registration(name, email, password) {
-        return new Promise(() => {
+        return new Promise((resolve, reject) => {
             callServer({
                 url: apiUrl + "Auth/Register",
                 method: "POST",
-                headers: ApiRequests.getHeaders(),
+                headers: AuthRequests.getHeaders(),
                 data: {
                     name,
                     email,
@@ -22,32 +21,36 @@ export default class ApiRequests {
                 }
             }).then(
                 response => {
-                    console.log(response);
-                    if ((response.status === 200)) {
-                        localStorage.setItem("token", `Bearer ${response.data}`);
-                    }
+                    resolve(response)
                 },
                 error => {
+                    // TODO add handling errors
                     console.log(error.response);
+                    reject(error.response);
                 });
         });
     }
 
     authorization(email, password) {
-        return new Promise(() => {
+        return new Promise((resolve, reject) => {
             callServer({
                 url: apiUrl + "Auth/Login",
                 method: "POST",
-                headers: ApiRequests.getHeaders(),
+                headers: AuthRequests.getHeaders(),
                 data: {
                     email,
                     password
                 }
-            }).then(response => {
-                if ((response.status === 200)) {
-                    localStorage.setItem("token", `Bearer ${response.data}`);
+            }).then(
+                response => {
+                    resolve(response);
+                },
+                error => {
+                    // TODO add handling errors
+                    console.log(error.response);
+                    reject(error.response);
                 }
-            });
+            );
         });
     }
 }

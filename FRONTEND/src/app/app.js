@@ -6,7 +6,7 @@ import { withRouter } from "react-router";
 
 // Action creators and helpers
 import { establishCurrentUser } from "../modules/auth";
-import { isServer } from "../store";
+import { isServer } from "../store/store";
 
 import Header from "./header";
 import Routes from "./routes";

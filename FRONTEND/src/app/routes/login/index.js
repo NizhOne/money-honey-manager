@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Page from "../../components/Page";
 import { loginUser } from "../../../modules/auth";
-import LoginForm from "../../components/AuthForm/AuthForm";
+import LoginForm from "../../containers/AuthFormContainer";
 
 const Login = props => (
     <Page id="login" title="Login" description="We need to log in to stuff.">

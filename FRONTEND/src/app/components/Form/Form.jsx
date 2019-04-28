@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Input, Col, Button } from "react-materialize";
+import Spinner from "../Spinner";
 
 import Container from "../Container";
 import "./form.css"

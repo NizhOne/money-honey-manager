@@ -5,7 +5,7 @@ import Loadable from "react-loadable";
 import { Frontload } from "react-frontload";
 import { ConnectedRouter } from "connected-react-router";
 
-import createStore from "./store";
+import createStore from "./store/store";
 import App from "./app/app";
 import "./index.css";
 // import "materialize-css/dist/css/materialize.min.css";
