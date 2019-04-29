@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Interfaces;
 using API.Models;
+using API.Models.Domain;
 using API.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
 namespace API.Controllers
@@ -34,37 +37,52 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            var user = new ApplicationUser
+            if (ModelState.IsValid)
             {
-                Name = model.Name,
-                UserName = model.Email,
-                Email = model.Email
-            };
-            var result = await this.userManager.CreateAsync(user, model.Password);
+                var user = new ApplicationUser
+                {
+                    Name = model.Name,
+                    UserName = model.Email,
+                    Email = model.Email
+                };
 
-            if (result.Succeeded)
-            {
-                await signInManager.SignInAsync(user, false);
+                IdentityResult result = await this.userManager.CreateAsync(user, model.Password);
 
-                var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
-                await this.emailService.SendConfirmationMail(user, code);
+                if (result.Succeeded)
+                {
+                    await signInManager.SignInAsync(user, false);
 
-                return this.authService.GenerateJwtToken(user);
+                    string code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    await this.emailService.SendConfirmationMail(user, code);
+
+                    return Ok(this.authService.GenerateJwtToken(user));
+                }
+                else
+                {
+                    return BadRequest(this.GetIdentityErrors(result));
+                }
             }
-
-            throw new ApplicationException("UNKNOWN_ERROR");
+            else
+            {
+                return BadRequest(this.GetModelStateErrors(ModelState));
+            }
         }
 
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            var signInResult = await signInManager.PasswordSignInAsync(
+                model.Email,
+                model.Password,
+                false,
+                false);
 
-            if (result.Succeeded)
+            if (signInResult.Succeeded)
             {
-                var appUser = userManager.Users.SingleOrDefault(r => r.Email == model.Email);
+                var appUser = await userManager.FindByNameAsync(model.Email);
+
                 return Ok(this.authService.GenerateJwtToken(appUser));
             }
             else
@@ -76,44 +94,80 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            if (userId == null || code == null)
+            if (ModelState.IsValid)
             {
-                return BadRequest("Empty userId or code");
-            }
-            var user = await userManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                return BadRequest("Invalid userId ");
-            }
+                ApplicationUser user = await userManager.FindByIdAsync(userId);
 
-            var result = await userManager.ConfirmEmailAsync(user, code.Replace(" ", "+"));
-            if (result.Succeeded)
-                return Ok(this.authService.GenerateJwtToken(user));
+                if (user == null)
+                {
+                    return BadRequest(new ValidationError
+                    {
+                        Field = "userId",
+                        Message = "Invalid userId"
+                    });
+                }
+
+                IdentityResult result = await userManager.ConfirmEmailAsync(user, code.Replace(" ", "+"));
+
+                if (result.Succeeded)
+                {
+                    return Ok(this.authService.GenerateJwtToken(user));
+                }
+                else
+                {
+                    return BadRequest(new ValidationError
+                    {
+                        Message = "Invalid userId or confirmation code"
+                    });
+                }
+            }
             else
-                return BadRequest("Invalid userId or code");
+            {
+                return BadRequest(this.GetModelStateErrors(ModelState));
+            }
         }
 
         [HttpPost()]
         public async Task<IActionResult> FacebookAuthentication([FromBody]FacebookAuthViewModel model)
         {
-            var userInfo = await this.authService.GetFacebookUserInfoAsync(model.AccessToken);
-            var user = await userManager.FindByEmailAsync(userInfo.Email);
+            FacebookUserData userInfo = await this.authService.GetFacebookUserInfoAsync(model.AccessToken);
+            ApplicationUser user = await userManager.FindByNameAsync(userInfo.Email);
 
             if (user == null)
             {
-                var appUser = new ApplicationUser
+                user = new ApplicationUser
                 {
                     Name = userInfo.FirstName,
                     Email = userInfo.Email,
                     UserName = userInfo.Email,
                 };
 
-                var result = await userManager.CreateAsync(appUser, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8));
+                var result = await userManager.CreateAsync(user, Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 8));
             }
 
-            var localUser = await userManager.FindByNameAsync(userInfo.Email);
+            return Ok(this.authService.GenerateJwtToken(user));
+        }
 
-            return new OkObjectResult(this.authService.GenerateJwtToken(localUser));
+        private IEnumerable<ValidationError> GetModelStateErrors(ModelStateDictionary modelState)
+        {
+            return modelState.Keys
+                .SelectMany(key => modelState[key].Errors.Select(error =>
+                    new ValidationError
+                    {
+                        Field = key,
+                        Message = error.ErrorMessage
+                    }))
+                .ToList();
+        }
+
+        private IEnumerable<ValidationError> GetIdentityErrors(IdentityResult result)
+        {
+            return result.Errors.Select(error =>
+                new ValidationError
+                {
+                    Message = error.Description
+                })
+                .ToList();
         }
     }
 }

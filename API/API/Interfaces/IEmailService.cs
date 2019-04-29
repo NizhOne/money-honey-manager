@@ -1,4 +1,4 @@
-﻿using API.Models;
+﻿using API.Models.Domain;
 using System.Threading.Tasks;
 
 namespace API.Interfaces

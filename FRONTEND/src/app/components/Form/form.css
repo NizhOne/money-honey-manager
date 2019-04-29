@@ -7,9 +7,61 @@
     margin: 0 auto;
 }
 
+.form__wrapper .input-field {
+    margin-top: 0;
+}
+
+.form__header {
+    font-size: 20px;
+}
+
 .form__buttons button {
     width: 100%;
     height: 50px;
     margin-bottom: 10px;
 }
 
+.form__buttons_inner {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.form__buttons_error {
+    font-size: 12px;
+    color: #F44336;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateY(10px);
+    transition: .5s ease;
+}
+
+.form__input {
+    transition: 1s ease;
+    /*make it later*/
+}
+.form__input_wrapper {
+    position: relative;
+    margin-bottom: 10px;
+}
+.form__input_wrapper label {
+    width: 100%;
+    left: 0;
+    text-align: left;
+}
+.form__input_wrapper label[data-error]::after {
+    top: 35px;
+    font-size: 12px;
+}
+.form__input_wrapper label.active[data-error]::after {
+    top: 60px;
+    font-size: 12px;
+}
+.form__error {
+    position: absolute;
+    bottom: 0;
+    left: 5px;
+    color: red;
+    font-size: 13px;
+}

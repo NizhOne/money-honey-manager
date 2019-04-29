@@ -8,7 +8,7 @@ import forceDomain from "forcedomain";
 import Loadable from "react-loadable";
 import cookieParser from "cookie-parser";
 
-// Our loader - this basically acts as the entry point for each page load
+// Our loader - this basically acts as the entry point for each Page load
 import loader from "./loader";
 
 // Create our express app using the port optionally specified
