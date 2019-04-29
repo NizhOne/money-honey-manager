@@ -2,12 +2,12 @@
 
 namespace API.Models
 {
-    public class LoginModel
+    public class EmailConfirmation
     {
         [Required]
-        public string Email { get; set; }
+        public string UserId { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string Code { get; set; }
     }
 }
