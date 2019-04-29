@@ -14,7 +14,7 @@ namespace API.Models
         public string Gender { get; set; }
         public string Locale { get; set; }
     }
-
+    
     public class FacebookUserAccessTokenData
     {
         [JsonProperty("app_id")]
