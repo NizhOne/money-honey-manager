@@ -92,11 +92,11 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(EmailConfirmation model)
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await userManager.FindByIdAsync(model.UserId);
+                ApplicationUser user = await userManager.FindByIdAsync(userId);
 
                 if (user == null)
                 {
@@ -107,7 +107,7 @@ namespace API.Controllers
                     });
                 }
 
-                IdentityResult result = await userManager.ConfirmEmailAsync(user, model.Code.Replace(" ", "+"));
+                IdentityResult result = await userManager.ConfirmEmailAsync(user, code.Replace(" ", "+"));
 
                 if (result.Succeeded)
                 {
