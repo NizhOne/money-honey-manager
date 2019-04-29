@@ -7,8 +7,8 @@ export function auth(payload) {
     return {
         type: AUTH,
         payload: {
-            isLoading: true,
-            ...payload
+            ...payload,
+            isLoading: true
         }
     }
 }
@@ -17,8 +17,8 @@ export function register(payload) {
     return {
         type: REGISTER,
         payload: {
-            isLoading: true,
-                ...payload
+            ...payload,
+            isLoading: true
         }
     }
 }

@@ -24,8 +24,6 @@ export default class AuthRequests {
                     resolve(response)
                 },
                 error => {
-                    // TODO add handling errors
-                    console.log(error.response);
                     reject(error.response);
                 });
         });
@@ -46,8 +44,6 @@ export default class AuthRequests {
                     resolve(response);
                 },
                 error => {
-                    // TODO add handling errors
-                    console.log(error.response);
                     reject(error.response);
                 }
             );

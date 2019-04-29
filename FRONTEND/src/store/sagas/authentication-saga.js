@@ -27,7 +27,7 @@ function* registration(action) {
             yield put(authSuccess());
         }
     } catch (e) {
-        yield put(authFail(e.statusText))
+        yield put(authFail(e.data[0].message))
     }
 }
 
