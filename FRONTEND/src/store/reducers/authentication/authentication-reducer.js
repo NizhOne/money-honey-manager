@@ -1,4 +1,4 @@
-import { AUTH, AUTH_FAIL, AUTH_SUCCESS } from "./authentication-actions";
+import { AUTH, AUTH_FAIL, AUTH_SUCCESS, REGISTER } from "./authentication-actions";
 
 const initState = {
     isLoading: false,
@@ -11,6 +11,7 @@ export default function authentication(state = initState, action) {
         case AUTH:
         case AUTH_SUCCESS:
         case AUTH_FAIL:
+        case REGISTER:
             return {
                 ...initState,
                 ...action.payload

@@ -1,9 +1,9 @@
 import * as React from "react";
-import { Input, Col, Button } from "react-materialize";
-import Spinner from "../Spinner";
+import { Input, Col } from "react-materialize";
 
 import Container from "../Container";
 import "./form.css"
+import CustomButton from "../CustomButton/CustomButton";
 
 class Form extends React.Component{
     componentWillMount() {
@@ -77,7 +77,7 @@ class Form extends React.Component{
     };
 
     render() {
-        const { fields, buttonLabel, buttonChild, formHeader, submitError } = this.props;
+        const { fields, buttonLabel, buttonChild, formHeader, isLoading, error } = this.props;
 
         return (
             <Container className={["form"]}>
@@ -100,14 +100,15 @@ class Form extends React.Component{
                     </Col>
                     <div className="form__buttons">
                         <div className="form__buttons_inner">
-                            <Button
+                            <CustomButton
                                 type="button"
                                 onClick={this.submitClick}
                                 waves="light"
+                                disabled={isLoading}
                             >
                                 {buttonLabel}
-                            </Button>
-                            {submitError && <span className="form__buttons_error">Response error</span>}
+                            </CustomButton>
+                            <span className="form__buttons_error">{error}</span>
                         </div>
                         {buttonChild}
                     </div>

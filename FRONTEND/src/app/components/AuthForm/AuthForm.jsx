@@ -17,7 +17,6 @@ class AuthForm extends React.Component {
 
     getValues = (values) => {
         const {email, name, password} = values;
-        console.log(this.props);
         this.state.isRegistration
             ? this.props.registration(name, email, password)
             : this.props.authorization(email, password);
@@ -70,6 +69,8 @@ class AuthForm extends React.Component {
                 buttonChild={fbButton}
                 getValues={this.getValues}
                 key={formStub}
+                isLoading={this.props.isLoading}
+                error={this.props.error}
             />
         </div>
     }
