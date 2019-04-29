@@ -87,7 +87,22 @@ namespace API.Controllers
             }
             else
             {
-                return Unauthorized();
+                var user = await userManager.FindByNameAsync(model.Email);
+
+                if(user == null)
+                {
+                    ValidationError validationError = new ValidationError();
+                    validationError.Field = "Username";
+                    validationError.Message = "Account with this username doesn't exist";
+                    return BadRequest(validationError);
+                }
+                else
+                {
+                    ValidationError validationError = new ValidationError();
+                    validationError.Field = "Password";
+                    validationError.Message = "Incorrect password, please try again";
+                    return BadRequest(validationError);
+                }
             }
         }
 
