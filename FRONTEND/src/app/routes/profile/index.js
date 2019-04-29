@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { frontloadConnect } from "react-frontload";
-import Page from "../../components/page";
+import Page from "../../components/Page";
 
 import {
     getCurrentProfile,

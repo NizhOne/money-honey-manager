@@ -5,10 +5,10 @@ import Loadable from "react-loadable";
 import { Frontload } from "react-frontload";
 import { ConnectedRouter } from "connected-react-router";
 
-import createStore from "./store";
+import createStore from "./store/store";
 import App from "./app/app";
 import "./index.css";
-import "materialize-css/dist/css/materialize.min.css";
+// import "materialize-css/dist/css/materialize.min.css";
 
 // Create a store and get back itself and its history object
 const { store, history } = createStore();
@@ -28,7 +28,7 @@ const Application = (
 const root = document.querySelector("#root");
 
 if (root.hasChildNodes() === true) {
-    // If it's an SSR, we use hydrate to get fast page loads by just
+    // If it's an SSR, we use hydrate to get fast Page loads by just
     // attaching event listeners after the initial render
     Loadable.preloadReady().then(() => {
         hydrate(Application, root);
