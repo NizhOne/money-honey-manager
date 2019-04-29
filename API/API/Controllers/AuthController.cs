@@ -73,36 +73,36 @@ namespace API.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var signInResult = await signInManager.PasswordSignInAsync(
-                model.Email,
-                model.Password,
-                false,
-                false);
+            var appUser = await userManager.FindByNameAsync(model.Email);
 
-            if (signInResult.Succeeded)
+            if (appUser != null)
             {
-                var appUser = await userManager.FindByNameAsync(model.Email);
+                var signInResult = await signInManager.PasswordSignInAsync(
+                 model.Email,
+                 model.Password,
+                 false,
+                 false);
 
-                return Ok(this.authService.GenerateJwtToken(appUser));
-            }
-            else
-            {
-                var user = await userManager.FindByNameAsync(model.Email);
-
-                if(user == null)
+                if (signInResult.Succeeded)
                 {
-                    ValidationError validationError = new ValidationError();
-                    validationError.Field = "Username";
-                    validationError.Message = "Account with this username doesn't exist";
-                    return BadRequest(validationError);
+                    return Ok(this.authService.GenerateJwtToken(appUser));
                 }
                 else
                 {
-                    ValidationError validationError = new ValidationError();
-                    validationError.Field = "Password";
-                    validationError.Message = "Incorrect password, please try again";
-                    return BadRequest(validationError);
+                    return BadRequest(new ValidationError
+                    {
+                        Field = "Password",
+                        Message = "Incorrect password, please try again"
+                    });
                 }
+            }
+            else
+            {
+                return BadRequest(new ValidationError
+                {
+                    Field = "Username",
+                    Message = "Account with this username doesn't exist"
+                });
             }
         }
 
