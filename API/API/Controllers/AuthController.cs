@@ -89,19 +89,21 @@ namespace API.Controllers
                 }
                 else
                 {
+                    var passwordFieldName = nameof(model.Password);
                     return BadRequest(new ValidationError
                     {
-                        Field = "Password",
-                        Message = "Incorrect password, please try again"
+                        Field = passwordFieldName,
+                        Message = $"Incorrect {passwordFieldName.ToLower()}, please try again"
                     });
                 }
             }
             else
             {
+                var usernameFieldName = nameof(model.Email);
                 return BadRequest(new ValidationError
                 {
-                    Field = "Username",
-                    Message = "Account with this username doesn't exist"
+                    Field = usernameFieldName,
+                    Message = $"Account with this {usernameFieldName.ToLower()} doesn't exist"
                 });
             }
         }
