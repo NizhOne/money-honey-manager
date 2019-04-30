@@ -99,11 +99,11 @@ namespace API.Controllers
             }
             else
             {
-                var usernameFieldName = nameof(model.Email);
+                var emailFieldName = nameof(model.Email);
                 return BadRequest(new ValidationError
                 {
-                    Field = usernameFieldName,
-                    Message = $"Account with this {usernameFieldName.ToLower()} doesn't exist"
+                    Field = emailFieldName,
+                    Message = $"Account with this {emailFieldName.ToLower()} doesn't exist"
                 });
             }
         }
